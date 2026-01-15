@@ -9,12 +9,13 @@ import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
 from pathlib import Path
 
-
 # df = pd.read_csv('../nodejs/stats_new/adaptive_main.csv')
 
 ## Extract path of all .csv files
 csv_path = Path(__file__).parent/'stats_new'
-f_path = glob.glob(csv_path/'*.csv')
+
+f_path = list(csv_path.glob("*.csv"))
+# print(f_path)
 
 ##Extract names of the .csv files from the path
 f_names = [os.path.basename(path) for path in f_path]
