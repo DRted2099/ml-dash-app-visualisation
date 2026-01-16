@@ -67,10 +67,10 @@ app.layout = dbc.Container([
         options=[{'label':labels, 'value': names} for labels, names in zip(label_names, f_names)], 
         value = df_keys[0],
         style= {"font":dbc.themes.DARKLY}, 
-        id="data_frame_dd"),
+        id="data_frame_dd",),
     html.Br(),
     html.H6(children = 'Stat', style={"font-weight": "bold"}),
-    dcc.Dropdown(id="col_dd"),
+    dcc.Dropdown(id="col_dd", multi= True,),
     html.Br(),
     html.Button(children="Submit", id="sub_but", n_clicks=0),
     html.Hr(),
@@ -110,7 +110,7 @@ def update_df_dd(df_dropdown):
     filtered_dff_col_names = [item for item in dff_col_names if item not in remove_item]
 
     dd_col_options = filtered_dff_col_names
-    dd_col_value = filtered_dff_col_names[0]
+    dd_col_value = [filtered_dff_col_names[0], filtered_dff_col_names[1]]
 
     return dff_row, dff_col, dd_col_options, dd_col_value
 
@@ -127,8 +127,8 @@ def update_graph(n_clicks,col_value, df_dropdown):
         return no_update
 
     dff = df_dict[df_dropdown]
-    fig = px.bar(dff, x="Name", y=col_value, text=dff[col_value])
-
+    fig = px.bar(dff, x="Name", y=col_value, barmode="group")
+    fig.update_xaxes(tickangle=90)
     return fig
 
 if __name__ == "__main__":
